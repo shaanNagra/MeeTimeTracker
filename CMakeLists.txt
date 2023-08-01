@@ -43,6 +43,7 @@ else()
     else()
         add_executable(MeeTimeTracker
             ${PROJECT_SOURCES}
+            Timers/countdowntimer.h Timers/countdowntimer.cpp Timers/countdowntimer.ui
         )
     endif()
 
