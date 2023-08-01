@@ -17,5 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void loadWidgets();
 };
 #endif // MAINWINDOW_H
