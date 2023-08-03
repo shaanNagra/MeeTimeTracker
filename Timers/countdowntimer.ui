@@ -15,7 +15,11 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" colspan="3">
-    <widget class="QLCDNumber" name="ct_lcd"/>
+    <widget class="QLCDNumber" name="ct_lcd">
+     <property name="digitCount">
+      <number>8</number>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" colspan="3">
     <widget class="QWidget" name="cd_input_widget" native="true">
@@ -162,6 +166,9 @@
       </property>
       <item>
        <widget class="QPushButton" name="ct_EndButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
           <horstretch>0</horstretch>
