@@ -4,6 +4,7 @@
 #include <QtDebug>
 #include <QSqlError>
 #include <QFile>
+//#include "customstructs.cpp"
 
 DatabaseManager::DatabaseManager(QString db_path, QString db_name,
     QString db_conn_name){
@@ -31,7 +32,38 @@ bool DatabaseManager::InitDatabase(){
     return true;
 }
 
-QList<project> DatabaseManager::GetAllProject(){
+QList<projectStruct> DatabaseManager::GetAllProject(){
+
+    QList<projectStruct> projectList;
+    auto db = QSqlDatabase::database(db_conn_name);
+    QSqlQuery query(db);
+    query.prepare("SELECT `project_id`, `name`, `color` FROM `Project`");
+    if(query.exec()){
+        while(query.next()){
+            projectStruct new_project;
+            new_project.db_id = query.value(0).toInt();
+            new_project.name = query.value(1).toString();
+            new_project.color = query.value(2).toInt();
+            new_project.subprojects = QSet<QString>();
+            projectList.append(new_project);
+        }
+    }else{
+        return projectList;
+    }
+    query.prepare(
+        "SELECT `name` FROM `Subproject` WHERE `project_id` = :project_id"
+    );
+    for(int i=0; i<projectList.count(); i++){
+        query.bindValue(":project_id",projectList[i].db_id);
+        if(query.exec()){
+            while(query.next()){
+                projectList[i].subprojects.insert(query.value(0).toString());
+            }
+        }
+
+    }
+
+    return projectList;
 
 }
 
@@ -57,10 +89,11 @@ bool DatabaseManager::AddProject(const QString &name, const int &color){
         query.prepare(
             "INSERT INTO 'Subproject'"
             "('subproject_id', 'project_id', 'is_default', 'name') "
-            "VALUES (NULL, :project_id, :is_default, NULL)"
+            "VALUES (NULL, :project_id, :is_default, :name)"
         );
         query.bindValue(":project_id", ppk);
         query.bindValue(":is_default", 1);
+        query.bindValue(":name", "UnSLpp");
         if(!query.exec()){
             db.rollback();
             return false;

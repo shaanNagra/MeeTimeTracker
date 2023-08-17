@@ -1,5 +1,9 @@
-#include <QString>
+#ifndef CUSTOMSTRUCTS_H
+#define CUSTOMSTRUCTS_H
+
 #include <QSet>
+#include <QString>
+
 
 struct projectStruct{
     int db_id;
@@ -7,3 +11,5 @@ struct projectStruct{
     int color;
     QSet<QString> subprojects;
 };
+
+#endif // CUSTOMSTRUCTS_H

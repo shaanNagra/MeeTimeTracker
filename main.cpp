@@ -8,6 +8,7 @@
 #include <QtDebug>
 #include <QStandardPaths>
 #include <QDir>
+#include "customstructs.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,8 +41,14 @@ int main(int argc, char *argv[])
     db_man->AddProject("testPrroject", 0xFF0332);
     db_man->AddProject("testProject", 0x342332);
     db_man->AddSubproject("work", "testProject");
-    db_man->AddSubproject("work", "testProject");
-
+    db_man->AddSubproject("play", "testProject");
+    auto pList = db_man->GetAllProject();
+    for(int i=0; i<pList.count(); i++){
+        qDebug() << pList[i].db_id;
+        qDebug() << pList[i].name;
+        qDebug() << pList[i].color;
+        qDebug() << pList[i].subprojects;
+    }
     //qDebug() << "database init ran once";
     //db->InitDatabase(path);
     MainWindow w;

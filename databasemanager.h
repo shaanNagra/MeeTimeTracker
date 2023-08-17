@@ -3,7 +3,7 @@
 
 #include <QSqlDatabase>
 #include <QString>
-#include "customstructs.cpp"
+#include "customstructs.h"
 #include <QList>
 
 class DatabaseManager
@@ -17,7 +17,7 @@ public:
     bool UpdateProject();
     bool DeleteProject();
     bool ProjectExists();
-    QList<project> GetAllProject();
+    QList<projectStruct> GetAllProject();
 
     bool AddSubproject(const QString &name, const QString &project_name);
     bool UpdateSubproject();

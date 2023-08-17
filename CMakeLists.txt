@@ -47,6 +47,7 @@ else()
             databasemanager.h databasemanager.cpp
             Widgets/savedtimerconfigs.h Widgets/savedtimerconfigs.cpp Widgets/savedtimerconfigs.ui
             customstructs.cpp
+            customstructs.h
         )
     endif()
 
