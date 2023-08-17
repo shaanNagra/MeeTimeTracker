@@ -211,7 +211,7 @@
      </item>
      <item>
       <property name="text">
-       <string>tag 2</string>
+       <string comment="3">tag 2</string>
       </property>
      </item>
     </widget>

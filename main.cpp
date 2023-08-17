@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "mttdatabaseinf.h"
+#include "databasemanager.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -35,9 +35,14 @@ int main(int argc, char *argv[])
         if (f.open(QIODevice::WriteOnly | QIODevice::Truncate))
             f.write("Hello, World");
     }
-    MTTDatabaseInf *db = new MTTDatabaseInf();
-    db->InitDatabase(path,"testDB", "testDB");
-    qDebug() << "database init ran once";
+    DatabaseManager *db_man = new DatabaseManager(path, "test.db", "testDB");
+    db_man->InitDatabase();
+    db_man->AddProject("testPrroject", 0xFF0332);
+    db_man->AddProject("testProject", 0x342332);
+    db_man->AddSubproject("work", "testProject");
+    db_man->AddSubproject("work", "testProject");
+
+    //qDebug() << "database init ran once";
     //db->InitDatabase(path);
     MainWindow w;
     w.show();

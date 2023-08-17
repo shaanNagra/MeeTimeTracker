@@ -57,8 +57,7 @@ private:
     void startTimer();
     void pauseTimer();
     void resumeTimer();
-    void resetTimer();
-    void okTimer();
+    void resetTimer(); 
 
     void timeElapsed();
 

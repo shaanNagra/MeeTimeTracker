@@ -43,8 +43,9 @@ else()
     else()
         add_executable(MeeTimeTracker
             ${PROJECT_SOURCES}
-            Timers/countdowntimer.h Timers/countdowntimer.cpp Timers/countdowntimer.ui
-            mttdatabaseinf.h mttdatabaseinf.cpp
+            Widgets/countdowntimer.h Widgets/countdowntimer.cpp Widgets/countdowntimer.ui
+            databasemanager.h databasemanager.cpp
+            Widgets/savedtimerconfigs.h Widgets/savedtimerconfigs.cpp Widgets/savedtimerconfigs.ui
         )
     endif()
 
