@@ -46,6 +46,7 @@ else()
             Widgets/countdowntimer.h Widgets/countdowntimer.cpp Widgets/countdowntimer.ui
             databasemanager.h databasemanager.cpp
             Widgets/savedtimerconfigs.h Widgets/savedtimerconfigs.cpp Widgets/savedtimerconfigs.ui
+            customstructs.cpp
         )
     endif()
 

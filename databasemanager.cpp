@@ -31,6 +31,10 @@ bool DatabaseManager::InitDatabase(){
     return true;
 }
 
+QList<project> DatabaseManager::GetAllProject(){
+
+}
+
 bool DatabaseManager::AddProject(const QString &name, const int &color){
     auto db = QSqlDatabase::database(db_conn_name);
 
