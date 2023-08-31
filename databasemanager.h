@@ -17,7 +17,7 @@ public:
     bool UpdateProject();
     bool DeleteProject();
     bool ProjectExists();
-    QList<projectStruct> GetAllProject();
+    QList<ProjectStruct> GetAllProject();
 
     bool AddSubproject(const QString &name, const QString &project_name);
     bool UpdateSubproject();

@@ -1,7 +1,7 @@
 #include <QString>
 #include <QSet>
 
-struct projectStruct{
+struct ProjectStruct{
     int db_id;
     QString name;
     int color;

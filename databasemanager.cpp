@@ -28,19 +28,24 @@ bool DatabaseManager::InitDatabase(){
     }else if(0 == db.tables(QSql::Tables).length()){
         qDebug() << "new database created: creating tables";
         DatabaseManager::CreateDatabaseStructre(db);
+        DatabaseManager::AddProject("Work", 0x00fcba03);
+        DatabaseManager::AddProject("Study", 0x00fc0398);
+        DatabaseManager::AddSubproject("Weekly Meetings", "Work");
+        DatabaseManager::AddSubproject("PHYS101", "Study");
+        DatabaseManager::AddSubproject("MATH201", "Study");
     }
     return true;
 }
 
-QList<projectStruct> DatabaseManager::GetAllProject(){
+QList<ProjectStruct> DatabaseManager::GetAllProject(){
 
-    QList<projectStruct> projectList;
+    QList<ProjectStruct> projectList;
     auto db = QSqlDatabase::database(db_conn_name);
     QSqlQuery query(db);
     query.prepare("SELECT `project_id`, `name`, `color` FROM `Project`");
     if(query.exec()){
         while(query.next()){
-            projectStruct new_project;
+            ProjectStruct new_project;
             new_project.db_id = query.value(0).toInt();
             new_project.name = query.value(1).toString();
             new_project.color = query.value(2).toInt();
@@ -93,7 +98,7 @@ bool DatabaseManager::AddProject(const QString &name, const int &color){
         );
         query.bindValue(":project_id", ppk);
         query.bindValue(":is_default", 1);
-        query.bindValue(":name", "UnSLpp");
+        query.bindValue(":name", "UnSlPrP");
         if(!query.exec()){
             db.rollback();
             return false;

@@ -5,7 +5,7 @@
 #include <QString>
 
 
-struct projectStruct{
+struct ProjectStruct{
     int db_id;
     QString name;
     int color;

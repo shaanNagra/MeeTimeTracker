@@ -4,9 +4,10 @@
 #include "Widgets/savedtimerconfigs.h"
 
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(DatabaseManager &db_man, QWidget *parent) :
+    QMainWindow(parent),
+    db_man(db_man),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     loadWidgets();
@@ -19,7 +20,7 @@ void MainWindow::loadWidgets(){
 
     cTimer = new CountdownTimer();
     ui->ttt_wg_cont->layout()->addWidget(cTimer);
-    stcWidget = new SavedTimerConfigs();
+    stcWidget = new SavedTimerConfigs(db_man);
     ui->stc_wg_cont->layout()->addWidget(stcWidget);
 
     //timerTab->setLayout(new QGridLayout);

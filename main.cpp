@@ -27,7 +27,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    auto path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    auto path = QStandardPaths::writableLocation(
+                QStandardPaths::AppDataLocation);
+
     if (path.isEmpty()) qFatal("Cannot determine settings storage location");
     QDir d{path};
     if (d.mkpath(d.absolutePath())) {
@@ -36,22 +38,16 @@ int main(int argc, char *argv[])
         if (f.open(QIODevice::WriteOnly | QIODevice::Truncate))
             f.write("Hello, World");
     }
-    DatabaseManager *db_man = new DatabaseManager(path, "test.db", "testDB");
-    db_man->InitDatabase();
-    db_man->AddProject("testPrroject", 0xFF0332);
-    db_man->AddProject("testProject", 0x342332);
-    db_man->AddSubproject("work", "testProject");
-    db_man->AddSubproject("play", "testProject");
-    auto pList = db_man->GetAllProject();
-    for(int i=0; i<pList.count(); i++){
-        qDebug() << pList[i].db_id;
-        qDebug() << pList[i].name;
-        qDebug() << pList[i].color;
-        qDebug() << pList[i].subprojects;
-    }
-    //qDebug() << "database init ran once";
+    //DatabaseManager *db_man = new DatabaseManager(path, "test.db", "testDB");
+    DatabaseManager db_man(path, "test.db", "testDB");
+    db_man.InitDatabase();
+    //db_man->AddProject("testPrroject", 0xFF0332);
+    //db_man->AddProject("testProject", 0x342332);
+    //db_man->AddSubproject("work", "testProject");
+    //db_man->AddSubproject("play", "testProject");
+        //qDebug() << "database init ran once";
     //db->InitDatabase(path);
-    MainWindow w;
+    MainWindow w(db_man);
     w.show();
     return app.exec();
 }
