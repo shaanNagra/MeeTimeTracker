@@ -28,6 +28,7 @@ bool DatabaseManager::InitDatabase(){
     }else if(0 == db.tables(QSql::Tables).length()){
         qDebug() << "new database created: creating tables";
         DatabaseManager::CreateDatabaseStructre(db);
+        DatabaseManager::AddProject("NoNclassified", 0x000000);
         DatabaseManager::AddProject("Work", 0x00fcba03);
         DatabaseManager::AddProject("Study", 0x00fc0398);
         DatabaseManager::AddSubproject("Weekly Meetings", "Work");
@@ -72,6 +73,14 @@ QList<ProjectStruct> DatabaseManager::GetAllProject(){
 
 }
 
+
+/**
+ * @brief Inserts records in database for a new project.
+ *
+ * @param name The name of project.
+ * @param color The colors RGB hexcode to be associated with project.
+ * @return If the transaction was successful.
+ */
 bool DatabaseManager::AddProject(const QString &name, const int &color){
     auto db = QSqlDatabase::database(db_conn_name);
 
@@ -98,7 +107,7 @@ bool DatabaseManager::AddProject(const QString &name, const int &color){
         );
         query.bindValue(":project_id", ppk);
         query.bindValue(":is_default", 1);
-        query.bindValue(":name", "UnSlPrP");
+        query.bindValue(":name", "NoNClassified");
         if(!query.exec()){
             db.rollback();
             return false;
@@ -118,11 +127,32 @@ bool DatabaseManager::AddProject(const QString &name, const int &color){
     return false;
 }
 
+
+/**
+ * @brief Inserts records into database for a new subproject.
+ *
+ * @note Public interface for private AddSubproject function,
+ *       obfuscate the parameter is_default.
+ *
+ * @param name The name of the subproject to inserted.
+ * @param project_name The name of the project that the subproject belongs to.
+ * @param is_default If subproject is the immuatbale default for project.
+ * @return If the transaction was successful.
+ */
 bool DatabaseManager::AddSubproject(const QString &name,
     const QString &project_name){
     return AddSubproject(name, project_name, false);
 }
 
+
+/**
+ * @brief Inserts record into database for a new subproject.
+ *
+ * @param name The name of the subproject to inserted.
+ * @param project_name The name of the project that the subproject belongs to.
+ * @param is_default If subproject is the immuatbale default for project.
+ * @return If the transaction was successful.
+ */
 bool DatabaseManager::AddSubproject(const QString &name,
     const QString &project_name, const bool &is_default){
 
@@ -161,6 +191,13 @@ bool DatabaseManager::AddSubproject(const QString &name,
     return false;
 }
 
+
+/**
+ * @brief Populate the database with example data for user.
+ *
+ * @param db The database object to access the database.
+ * @return If the transaction was successful.
+ */
 bool DatabaseManager::CreateDefaultData(const QSqlDatabase &db){
     if(!db.isOpen()){
         qDebug() << "could not open database to add template data";
@@ -172,31 +209,12 @@ bool DatabaseManager::CreateDefaultData(const QSqlDatabase &db){
 
     return false;
 }
-//    auto db = QSqlDatabase::addDatabase("QSQLITE");
-//    QSqlDatabase db;
-//    db = QSqlDatabase::database(db_name);
-//    qDebug() << db.isValid();
-//    db = QSqlDatabase::addDatabase("QSQLITE", db_name);
-//    //db.setDatabaseName(db_name);
 
-//    //db = QSqlDatabase::database(db_name);
-//    qDebug() << db.connectionNames();
-//    qDebug() << db.isValid();
-//    bool opened = db.open();
-//    if(!opened){
-//        qDebug() << "failed to open";
-//    }
-//    qDebug() << "qdebug out check";
-
-//    db.close();
-
-//    QSqlDatabase dbs;
-//    qDebug() << dbs.isValid();
-//    dbs = QSqlDatabase::database(db_name);
-//    qDebug() << dbs.isValid();
-//    return opened;
-
-
+/**
+ * @brief Run sql queries to create the database schema.
+ * @param db
+ * @return
+ */
 bool DatabaseManager::CreateDatabaseStructre(const QSqlDatabase &db){
     if(!db.isOpen()){
         qDebug() << "database not open to create tables";
@@ -285,3 +303,28 @@ bool DatabaseManager::CreateDatabaseStructre(const QSqlDatabase &db){
     qDebug() << db.tables();
     return true;
 }
+
+
+//    auto db = QSqlDatabase::addDatabase("QSQLITE");
+//    QSqlDatabase db;
+//    db = QSqlDatabase::database(db_name);
+//    qDebug() << db.isValid();
+//    db = QSqlDatabase::addDatabase("QSQLITE", db_name);
+//    //db.setDatabaseName(db_name);
+
+//    //db = QSqlDatabase::database(db_name);
+//    qDebug() << db.connectionNames();
+//    qDebug() << db.isValid();
+//    bool opened = db.open();
+//    if(!opened){
+//        qDebug() << "failed to open";
+//    }
+//    qDebug() << "qdebug out check";
+
+//    db.close();
+
+//    QSqlDatabase dbs;
+//    qDebug() << dbs.isValid();
+//    dbs = QSqlDatabase::database(db_name);
+//    qDebug() << dbs.isValid();
+//    return opened;
